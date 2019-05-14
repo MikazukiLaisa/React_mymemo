@@ -12,27 +12,6 @@ function App() {
   );
 }
 
-class ValueInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(e) {
-    this.props.onNameChange(e.target.value);
-  }
-
-  render() {
-    return (
-      <fieldset>
-        <legend>Enter {this.props.title} in ababa:</legend>
-        <input value={this.props.value}
-               onChange={this.handleChange} />
-      </fieldset>
-    );
-  }
-}
-
 class Model2 extends React.Component {
   constructor(props) {
     super(props);
@@ -54,18 +33,38 @@ class Model2 extends React.Component {
         <ValueInput
           title="name"
           value={this.state.name}
-          onNameChange={this.handleNameChange} />
+          onChange={this.handleNameChange} />
           {this.state.name}
         <ValueInput
           title="contents"
           value={this.state.contents}
-          onNameChange={this.handleContentsChange} />
+          onChange={this.handleContentsChange} />
           {this.state.contents}
       </div>
     );
   }
 }
 
+class ValueInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    this.props.onChange(e.target.value);
+  }
+
+  render() {
+    return (
+      <fieldset>
+        <legend>Enter {this.props.title} in ababa:</legend>
+        <input value={this.props.value}
+               onChange={this.handleChange} />
+      </fieldset>
+    );
+  }
+}
 
 
 let scheduleList = [];
@@ -120,12 +119,11 @@ class InputField extends React.Component {
   }
 
   render() {
-    const name = this.props.value;
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
           {this.props.type}:
-          <input type="text" value={name} onChange={this.handleChange} />
+          <input type="text" value={this.props.value} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>
