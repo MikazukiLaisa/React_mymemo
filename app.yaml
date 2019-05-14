@@ -1,0 +1,7 @@
+runtime: nodejs10
+handlers: 
+- url: /
+  static_files: React_mymemo/build/index.html
+  upload: React_mymemo/build/index.html
+- url: /
+  static_dir: React_mymemo/build
