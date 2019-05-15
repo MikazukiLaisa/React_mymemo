@@ -20,7 +20,7 @@ class Model extends React.Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleContentsChange = this.handleContentsChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {name: "", contents: "", responce: "hoge"};
+    this.state = {name: "", contents: "https://api.github.com/users/${userId}", responce: "hoge"};
   }
 
   handleNameChange(name) {
@@ -31,7 +31,8 @@ class Model extends React.Component {
   }
   handleSubmit(event){
     //alert('name: ' + this.state.name + " contents: " + this.state.contents);
-    request.open("GET", "https://api.github.com/users/MikazukiLaisa", false);
+    const url = this.state.contents.toString();
+    request.open("GET", url, false);
     request.send(null);
     this.setState({responce: request.responseText});
     event.preventDefault();
