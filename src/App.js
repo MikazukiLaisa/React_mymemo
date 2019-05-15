@@ -33,8 +33,8 @@ class Model extends React.Component {
     //alert('name: ' + this.state.name + " contents: " + this.state.contents);
     const url = this.state.contents.toString();
     let response = 0;
-    request.send(null);
     request.open("GET", url, false);
+    request.send(null);
     request.onload = function (event) {
       if (request.readyState === 4) {
         if (request.status === 200) {
@@ -48,7 +48,7 @@ class Model extends React.Component {
     request.onerror = function (event) {
       response = request.statusText;
     };
-    this.setState({response: response})
+    this.setState({response: request.responseText})
     console.log(request.statusText);
     event.preventDefault();
   }
