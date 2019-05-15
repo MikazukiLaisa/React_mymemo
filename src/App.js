@@ -20,7 +20,7 @@ class Model extends React.Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleContentsChange = this.handleContentsChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {name: "", contents: "https://api.github.com/users/${userId}", responce: "hoge"};
+    this.state = {name: "", contents: "", response: "hoge"};
   }
 
   handleNameChange(name) {
@@ -32,19 +32,33 @@ class Model extends React.Component {
   handleSubmit(event){
     //alert('name: ' + this.state.name + " contents: " + this.state.contents);
     const url = this.state.contents.toString();
-    request.open("GET", url, false);
+    let response = 0;
     request.send(null);
-    this.setState({responce: request.responseText});
+    request.open("GET", url, false);
+    request.onload = function (event) {
+      if (request.readyState === 4) {
+        if (request.status === 200) {
+          console.log(request.responseText);
+          response = request.responseText;
+        } else {
+          response = request.statusText;
+        }
+      }
+    };
+    request.onerror = function (event) {
+      response = request.statusText;
+    };
+    this.setState({response: response})
+    console.log(request.statusText);
     event.preventDefault();
   }
-  
 
   render() {
     return (
       <div>
         <ValueInput
           title="name"
-          value={this.state.name}
+          value={this.state.response}
           onChange={this.handleNameChange} />
           {this.state.name}
         <ValueInput
@@ -56,7 +70,7 @@ class Model extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <input type="submit" value="Submit"/>
           </form>
-          {this.state.responce}
+          {this.state.response}
       </div>
     );
   }
