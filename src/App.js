@@ -4,6 +4,8 @@ import './App.css';
 import { nullLiteral } from '../node_modules/@babel/types';
 import { ENETDOWN } from 'constants';
 
+const request = new XMLHttpRequest();
+
 function App() {
   return (
     <div>
@@ -18,7 +20,7 @@ class Model extends React.Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleContentsChange = this.handleContentsChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {name: "", contents: ""};
+    this.state = {name: "", contents: "", responce: "hoge"};
   }
 
   handleNameChange(name) {
@@ -28,9 +30,13 @@ class Model extends React.Component {
     this.setState({contents});
   }
   handleSubmit(event){
-    alert('name: ' + this.state.name + " contents: " + this.state.contents);
+    //alert('name: ' + this.state.name + " contents: " + this.state.contents);
+    request.open("GET", "https://api.github.com/users/MikazukiLaisa", false);
+    request.send(null);
+    this.setState({responce: request.responseText});
     event.preventDefault();
   }
+  
 
   render() {
     return (
@@ -49,6 +55,7 @@ class Model extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <input type="submit" value="Submit"/>
           </form>
+          {this.state.responce}
       </div>
     );
   }
